@@ -1,0 +1,399 @@
+.\"     Title: lsdiff
+.\"    Author: 
+.\" Generator: DocBook XSL Stylesheets v1.74.0 <http://docbook.sf.net/>
+.\"      Date: 23 Jan 2009
+.\"    Manual: Man pages
+.\"    Source: patchutils
+.\"  Language: English
+.\"
+.TH "LSDIFF" "1" "23 Jan 2009" "patchutils" "Man pages"
+.\" -----------------------------------------------------------------
+.\" * (re)Define some macros
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" toupper - uppercase a string (locale-aware)
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de toupper
+.tr aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+\\$*
+.tr aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" SH-xref - format a cross-reference to an SH section
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de SH-xref
+.ie n \{\
+.\}
+.toupper \\$*
+.el \{\
+\\$*
+.\}
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" SH - level-one heading that works better for non-TTY output
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de1 SH
+.\" put an extra blank line of space above the head in non-TTY output
+.if t \{\
+.sp 1
+.\}
+.sp \\n[PD]u
+.nr an-level 1
+.set-an-margin
+.nr an-prevailing-indent \\n[IN]
+.fi
+.in \\n[an-margin]u
+.ti 0
+.HTML-TAG ".NH \\n[an-level]"
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+\." make the size of the head bigger
+.ps +3
+.ft B
+.ne (2v + 1u)
+.ie n \{\
+.\" if n (TTY output), use uppercase
+.toupper \\$*
+.\}
+.el \{\
+.nr an-break-flag 0
+.\" if not n (not TTY), use normal case (not uppercase)
+\\$1
+.in \\n[an-margin]u
+.ti 0
+.\" if not n (not TTY), put a border/line under subheading
+.sp -.6
+\l'\n(.lu'
+.\}
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" SS - level-two heading that works better for non-TTY output
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de1 SS
+.sp \\n[PD]u
+.nr an-level 1
+.set-an-margin
+.nr an-prevailing-indent \\n[IN]
+.fi
+.in \\n[IN]u
+.ti \\n[SN]u
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.ps \\n[PS-SS]u
+\." make the size of the head bigger
+.ps +2
+.ft B
+.ne (2v + 1u)
+.if \\n[.$] \&\\$*
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" BB/BE - put background/screen (filled box) around block of text
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de BB
+.if t \{\
+.sp -.5
+.br
+.in +2n
+.ll -2n
+.gcolor red
+.di BX
+.\}
+..
+.de EB
+.if t \{\
+.if "\\$2"adjust-for-leading-newline" \{\
+.sp -1
+.\}
+.br
+.di
+.in
+.ll
+.gcolor
+.nr BW \\n(.lu-\\n(.i
+.nr BH \\n(dn+.5v
+.ne \\n(BHu+.5v
+.ie "\\$2"adjust-for-leading-newline" \{\
+\M[\\$1]\h'1n'\v'+.5v'\D'P \\n(BWu 0 0 \\n(BHu -\\n(BWu 0 0 -\\n(BHu'\M[]
+.\}
+.el \{\
+\M[\\$1]\h'1n'\v'-.5v'\D'P \\n(BWu 0 0 \\n(BHu -\\n(BWu 0 0 -\\n(BHu'\M[]
+.\}
+.in 0
+.sp -.5v
+.nf
+.BX
+.in
+.sp .5v
+.fi
+.\}
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" BM/EM - put colored marker in margin next to block of text
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de BM
+.if t \{\
+.br
+.ll -2n
+.gcolor red
+.di BX
+.\}
+..
+.de EM
+.if t \{\
+.br
+.di
+.ll
+.gcolor
+.nr BH \\n(dn
+.ne \\n(BHu
+\M[\\$1]\D'P -.75n 0 0 \\n(BHu -(\\n[.i]u - \\n(INu - .75n) 0 0 -\\n(BHu'\M[]
+.in 0
+.nf
+.BX
+.in
+.fi
+.\}
+..
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "Name"
+lsdiff \- show which files are modified by a patch
+.SH "Synopsis"
+.fam C
+.HP \w'\fBlsdiff\fR\ 'u
+\fBlsdiff\fR [[\-n] | [\-\-line\-number]] [[\-p\ \fIn\fR] | [\-\-strip\-match=\fIn\fR]] [\-\-strip=\fIn\fR] [\-\-addprefix=\fIPREFIX\fR] [[\-s] | [\-\-status]] [[\-E] | [\-\-empty\-files\-as\-removed]] [[\-i\ \fIPATTERN\fR] | [\-\-include=\fIPATTERN\fR]] [[\-x\ \fIPATTERN\fR] | [\-\-exclude=\fIPATTERN\fR]] [[\-z] | [\-\-decompress]] [[\-#\ \fIRANGE\fR] | [\-\-hunks=\fIRANGE\fR]] [\-\-lines=\fIRANGE\fR] [\-\-files=\fIRANGE\fR] [[\-H] | [\-\-with\-filename]] [[\-h] | [\-\-no\-filename]] [[\-v] | [\-\-verbose]...] [\fIfile\fR...]
+.fam
+.fam C
+.HP \w'\fBlsdiff\fR\ 'u
+\fBlsdiff\fR {[\-\-help] | [\-\-version] | [\-\-filter\ \&.\&.\&.] | [\-\-grep\ \&.\&.\&.]}
+.fam
+.SH "Description"
+.PP
+List the files modified by a patch\&.
+.PP
+You can use both unified and context format diffs with this program\&.
+.SH "Options"
+.PP
+\fB\-n\fR, \fB\-\-line\-number\fR
+.RS 4
+Display the line number that each patch begins at\&. If verbose output is requested (using
+\fB\-nv\fR), each hunk of each patch is listed as well\&.
+.sp
+For each file that is modified, a line is generated containing the line number of the beginning of the patch, followed by a
+Tab
+character, followed by the name of the file that is modified\&. If
+\fB\-v\fR
+is given once, following each of these lines will be one line for each hunk, consisting of a
+Tab
+character, the line number that the hunk begins at, another
+Tab
+character, the string
+\(lqHunk #\(rq, and the hunk number (starting at 1)\&.
+.sp
+If the
+\fB\-v\fR
+is given twice in conjunction with
+\fB\-n\fR
+(i\&.e\&.
+\fB\-nvv\fR), the format is slightly different: hunk\-level descriptive text is shown after each hunk number, and the
+\fB\-\-number\-files\fR
+option is enabled\&.
+.RE
+.PP
+\fB\-\-number\-files\fR
+.RS 4
+File numbers are listed, beginning at 1, before each filename\&.
+.RE
+.PP
+\fB\-#\fR \fIRANGE\fR, \fB\-\-hunks\fR=\fIRANGE\fR
+.RS 4
+Only list hunks within the specified
+\fIRANGE\fR\&. Hunks are numbered from 1, and the range is a comma\-separated list of numbers or
+\(lqfirst\-last\(rq
+spans; either the first or the last in the span may be omitted to indicate no limit in that direction\&.
+.RE
+.PP
+\fB\-\-lines\fR=\fIRANGE\fR
+.RS 4
+Only list hunks that contain lines from the original file that lie within the specified
+\fIRANGE\fR\&. Lines are numbered from 1, and the range is a comma\-separated list of numbers or
+\(lqfirst\-last\(rq
+spans; either the first or the last in the span may be omitted to indicate no limit in that direction\&.
+.RE
+.PP
+\fB\-\-files\fR=\fIRANGE\fR
+.RS 4
+Only list files indicated by the specified
+\fIRANGE\fR\&. Files are numbered from 1 in the order they appear in the patch input, and the range is a comma\-separated list of numbers or
+\(lqfirst\-last\(rq
+spans; either the first or the last in the span may be omitted to indicate no limit in that direction\&.
+.RE
+.PP
+\fB\-p\fR \fIn\fR, \fB\-\-strip\-match=\fR\fB\fIn\fR\fR
+.RS 4
+When matching, ignore the first
+\fIn\fR
+components of the pathname\&.
+.RE
+.PP
+\fB\-\-strip\fR=\fIn\fR
+.RS 4
+Remove the first
+\fIn\fR
+components of the pathname before displaying it\&.
+.RE
+.PP
+\fB\-\-addprefix\fR=\fIPREFIX\fR
+.RS 4
+Prefix the pathname with
+\fIPREFIX\fR
+before displaying it\&.
+.RE
+.PP
+\fB\-s\fR, \fB\-\-status\fR
+.RS 4
+Show file additions, modifications and removals\&. A file addition is indicated by a
+\(lq+\(rq, a removal by a
+\(lq\-\(rq, and a modification by a
+\(lq!\(rq\&.
+.RE
+.PP
+\fB\-E\fR, \fB\-\-empty\-files\-as\-removed\fR
+.RS 4
+Treat empty files as absent for the purpose of displaying file additions, modifications and removals\&.
+.RE
+.PP
+\fB\-i\fR \fIPATTERN\fR, \fB\-\-include=\fR\fB\fIPATTERN\fR\fR
+.RS 4
+Include only files matching
+\fIPATTERN\fR\&.
+.RE
+.PP
+\fB\-x\fR \fIPATTERN\fR, \fB\-\-exclude=\fR\fB\fIPATTERN\fR\fR
+.RS 4
+Exclude files matching
+\fIPATTERN\fR\&.
+.RE
+.PP
+\fB\-z\fR, \fB\-\-decompress\fR
+.RS 4
+Decompress files with extensions \&.gz and \&.bz2\&.
+.RE
+.PP
+\fB\-H\fR, \fB\-\-with\-filename\fR
+.RS 4
+Print the name of the patch file containing each patch\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-no\-filename\fR
+.RS 4
+Suppress the name of the patch file containing each patch\&.
+.RE
+.PP
+\fB\-v\fR, \fB\-\-verbose\fR
+.RS 4
+Verbose output\&.
+.RE
+.PP
+\fB\-\-help\fR
+.RS 4
+Display a short usage message\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Display the version number of lsdiff\&.
+.RE
+.PP
+\fB\-\-filter\fR
+.RS 4
+Behave like
+\fBfilterdiff\fR(1)
+instead\&.
+.RE
+.PP
+\fB\-\-grep\fR
+.RS 4
+Behave like
+\fBgrepdiff\fR(1)
+instead\&.
+.RE
+.SH "See also"
+.PP
+\fBfilterdiff\fR(1),
+\fBgrepdiff\fR(1)
+.SH "Examples"
+.PP
+To sort the order of touched files in a patch, you can use:
+.sp
+.if n \{\
+.RS 4
+.\}
+.fam C
+.ps -1
+.nf
+.BB lightgray
+lsdiff patch | sort \-u | \e
+  xargs \-rn1 filterdiff patch \-i
+.EB lightgray
+.fi
+.fam
+.ps +1
+.if n \{\
+.RE
+.\}
+.PP
+To show only added files in a patch:
+.sp
+.if n \{\
+.RS 4
+.\}
+.fam C
+.ps -1
+.nf
+.BB lightgray
+lsdiff \-s patch | grep \'^+\' | \e
+  cut \-c2\- | xargs \-rn1 filterdiff patch \-i
+.EB lightgray
+.fi
+.fam
+.ps +1
+.if n \{\
+.RE
+.\}
+.PP
+To show the headers of all file hunks:
+.sp
+.if n \{\
+.RS 4
+.\}
+.fam C
+.ps -1
+.nf
+.BB lightgray
+lsdiff \-n patch | (while read n file
+  do sed \-ne "$n,$(($n+1))p" patch
+done)
+.EB lightgray
+.fi
+.fam
+.ps +1
+.if n \{\
+.RE
+.\}
+.SH "Author"
+.PP
+\fBTim Waugh\fR <\&twaugh@redhat.com\&>
+.RS 4
+Package maintainer
+.RE
