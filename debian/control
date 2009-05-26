@@ -1,0 +1,26 @@
+Source: patchutils
+Section: text
+Priority: optional
+Maintainer: Christoph Berg <myon@debian.org>
+Build-Depends: debhelper (>= 7), quilt, xmlto, automake
+Standards-Version: 3.8.1
+Vcs-Svn: http://svn.df7cb.de/debian/patchutils/trunk/
+Homepage: http://cyberelk.net/tim/patchutils/index.html
+
+Package: patchutils
+Architecture: any
+Depends: ${shlibs:Depends}, ${perl:Depends}, patch, debianutils (>= 1.16)
+Description: Utilities to work with patches
+ This package includes the following utilities:
+  - combinediff creates a cumulative patch from two incremental patches
+  - dehtmldiff extracts a diff from an HTML page
+  - filterdiff extracts or excludes diffs from a diff file
+  - fixcvsdiff fixes diff files created by CVS that "patch" mis-interprets
+  - flipdiff exchanges the order of two patches
+  - grepdiff shows which files are modified by a patch matching a regex
+  - interdiff shows differences between two unified diff files
+  - lsdiff shows which files are modified by a patch
+  - recountdiff recomputes counts and offsets in unified context diffs
+  - rediff and editdiff fix offsets and counts of a hand-edited diff
+  - splitdiff separates out incremental patches
+  - unwrapdiff demangles patches that have been word-wrapped
