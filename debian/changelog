@@ -1,3 +1,24 @@
+patchutils (0.3.2-1.1) unstable; urgency=low
+
+  * NMU with maintainer approval
+  * Set patchutils as Multi-Arch: foreign, Closes: 650506
+
+ -- Riku Voipio <riku.voipio@linaro.org>  Mon, 16 Jan 2012 13:33:34 +0200
+
+patchutils (0.3.2-1) unstable; urgency=low
+
+  * New upstream version.
+    + filterdiff cleans up tempfile left behind with -z option.
+      Closes: #538715
+    + all grepdiff options undocumented in manpage. Closes: #544746
+    + lsdiff -z nonexistent.diff.gz does fail. Closes: #607612
+  * Convert to 3.0 (quilt) to use upstream's bz2 file.
+  * Enable test suite.
+    + Add rpm to Build-Depends because we need gendiff.
+  * Force make -j1 as the Makefile builds some stuff twice otherwise.
+
+ -- Christoph Berg <myon@debian.org>  Sat, 12 Feb 2011 12:27:58 +0100
+
 patchutils (0.3.1-2) unstable; urgency=low
 
   * Remove Conflicts/Replaces/Provides: extractdiff, interdiff.

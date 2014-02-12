@@ -1,161 +1,13 @@
+'\" t
 .\"     Title: flipdiff
 .\"    Author: 
-.\" Generator: DocBook XSL Stylesheets v1.74.0 <http://docbook.sf.net/>
+.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
 .\"      Date: 23 January 2009
 .\"    Manual: Man pages
 .\"    Source: patchutils
 .\"  Language: English
 .\"
 .TH "FLIPDIFF" "1" "23 January 2009" "patchutils" "Man pages"
-.\" -----------------------------------------------------------------
-.\" * (re)Define some macros
-.\" -----------------------------------------------------------------
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" toupper - uppercase a string (locale-aware)
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.de toupper
-.tr aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
-\\$*
-.tr aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz
-..
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" SH-xref - format a cross-reference to an SH section
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.de SH-xref
-.ie n \{\
-.\}
-.toupper \\$*
-.el \{\
-\\$*
-.\}
-..
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" SH - level-one heading that works better for non-TTY output
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.de1 SH
-.\" put an extra blank line of space above the head in non-TTY output
-.if t \{\
-.sp 1
-.\}
-.sp \\n[PD]u
-.nr an-level 1
-.set-an-margin
-.nr an-prevailing-indent \\n[IN]
-.fi
-.in \\n[an-margin]u
-.ti 0
-.HTML-TAG ".NH \\n[an-level]"
-.it 1 an-trap
-.nr an-no-space-flag 1
-.nr an-break-flag 1
-\." make the size of the head bigger
-.ps +3
-.ft B
-.ne (2v + 1u)
-.ie n \{\
-.\" if n (TTY output), use uppercase
-.toupper \\$*
-.\}
-.el \{\
-.nr an-break-flag 0
-.\" if not n (not TTY), use normal case (not uppercase)
-\\$1
-.in \\n[an-margin]u
-.ti 0
-.\" if not n (not TTY), put a border/line under subheading
-.sp -.6
-\l'\n(.lu'
-.\}
-..
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" SS - level-two heading that works better for non-TTY output
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.de1 SS
-.sp \\n[PD]u
-.nr an-level 1
-.set-an-margin
-.nr an-prevailing-indent \\n[IN]
-.fi
-.in \\n[IN]u
-.ti \\n[SN]u
-.it 1 an-trap
-.nr an-no-space-flag 1
-.nr an-break-flag 1
-.ps \\n[PS-SS]u
-\." make the size of the head bigger
-.ps +2
-.ft B
-.ne (2v + 1u)
-.if \\n[.$] \&\\$*
-..
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" BB/BE - put background/screen (filled box) around block of text
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.de BB
-.if t \{\
-.sp -.5
-.br
-.in +2n
-.ll -2n
-.gcolor red
-.di BX
-.\}
-..
-.de EB
-.if t \{\
-.if "\\$2"adjust-for-leading-newline" \{\
-.sp -1
-.\}
-.br
-.di
-.in
-.ll
-.gcolor
-.nr BW \\n(.lu-\\n(.i
-.nr BH \\n(dn+.5v
-.ne \\n(BHu+.5v
-.ie "\\$2"adjust-for-leading-newline" \{\
-\M[\\$1]\h'1n'\v'+.5v'\D'P \\n(BWu 0 0 \\n(BHu -\\n(BWu 0 0 -\\n(BHu'\M[]
-.\}
-.el \{\
-\M[\\$1]\h'1n'\v'-.5v'\D'P \\n(BWu 0 0 \\n(BHu -\\n(BWu 0 0 -\\n(BHu'\M[]
-.\}
-.in 0
-.sp -.5v
-.nf
-.BX
-.in
-.sp .5v
-.fi
-.\}
-..
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" BM/EM - put colored marker in margin next to block of text
-.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.de BM
-.if t \{\
-.br
-.ll -2n
-.gcolor red
-.di BX
-.\}
-..
-.de EM
-.if t \{\
-.br
-.di
-.ll
-.gcolor
-.nr BH \\n(dn
-.ne \\n(BHu
-\M[\\$1]\D'P -.75n 0 0 \\n(BHu -(\\n[.i]u - \\n(INu - .75n) 0 0 -\\n(BHu'\M[]
-.in 0
-.nf
-.BX
-.in
-.fi
-.\}
-..
 .\" -----------------------------------------------------------------
 .\" * set default formatting
 .\" -----------------------------------------------------------------
@@ -166,27 +18,23 @@
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
-.SH "Name"
+.SH "NAME"
 flipdiff \- exchange the order of two incremental patches
-.SH "Synopsis"
-.fam C
+.SH "SYNOPSIS"
 .HP \w'\fBflipdiff\fR\ 'u
 \fBflipdiff\fR [[\-p\ \fIn\fR] | [\-\-strip\-match=\fIn\fR]] [[\-U\ \fIn\fR] | [\-\-unified=\fIn\fR]] [[\-d\ \fIPAT\fR] | [\-\-drop\-context=\fIPAT\fR]] [[\-q] | [\-\-quiet]] [[\-z] | [\-\-decompress]] [[\-b] | [\-\-ignore\-space\-change]] [[\-B] | [\-\-ignore\-blank\-lines]] [[\-i] | [\-\-ignore\-case]] [[\-w] | [\-\-ignore\-all\-space]] [\-\-in\-place] \fIdiff1\fR \fIdiff2\fR
-.fam
-.fam C
 .HP \w'\fBflipdiff\fR\ 'u
 \fBflipdiff\fR {[\-\-help] | [\-\-version]}
-.fam
-.SH "Description"
+.SH "DESCRIPTION"
 .PP
 \fBflipdiff\fR
 exchanges the order of two patch files that apply one after the other\&. The patches must be
 \(lqclean\(rq: the context lines must match and there should be no mis\-matched offsets\&.
 .PP
-The swapped patches are sent to standard output, with a marker line (\(lq\FC===\ \&8<\ \&===\ \&cut\ \&here\ \&===\ \&8<\ \&===\F[]\(rq) between them, unless the
+The swapped patches are sent to standard output, with a marker line (\(lq===\ \&8<\ \&===\ \&cut\ \&here\ \&===\ \&8<\ \&===\(rq) between them, unless the
 \fB\-\-in\-place\fR
 option is passed\&. In that case, the output is written back to the original input files\&.
-.SH "Options"
+.SH "OPTIONS"
 .PP
 \fB\-p\fR \fIn\fR, \fB\-\-strip\-match=\fR\fB\fIn\fR\fR
 .RS 4
@@ -264,7 +112,7 @@ Display a short usage message\&.
 .RS 4
 Display the version number of flipdiff\&.
 .RE
-.SH "Limitations"
+.SH "LIMITATIONS"
 .PP
 This is only been very lightly tested, and may not even work\&. Using
 \fB\-\-in\-place\fR
@@ -273,7 +121,7 @@ is not recommended at the moment\&.
 There are some cases in which it is not possible to meaningfully flip patches without understanding the semantics of the content\&. This program only uses complete lines that appear at some stage during the application of the two patches, and never composes a line from parts\&.
 .PP
 Because of this, it is generally a good idea to read through the output to check that it makes sense\&.
-.SH "Author"
+.SH "AUTHOR"
 .PP
 \fBTim Waugh\fR <\&twaugh@redhat.com\&>
 .RS 4

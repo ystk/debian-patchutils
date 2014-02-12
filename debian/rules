@@ -1,7 +1,5 @@
 #!/usr/bin/make -f
 
-include /usr/share/quilt/quilt.make
-
 DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
@@ -22,7 +20,6 @@ D=$(CURDIR)/debian/patchutils/usr
 configure: configure-stamp
 configure-stamp:
 	dh_testdir
-	$(MAKE) -f debian/rules patch
 	aclocal
 	autoheader
 	automake --foreign
@@ -33,7 +30,9 @@ configure-stamp:
 build: build-stamp
 build-stamp: configure-stamp
 	dh_testdir
-	$(MAKE)
+	# the Makefile runs some stuff twice with -jN
+	$(MAKE) -j1
+	$(MAKE) check -j1
 	touch build-stamp
 
 clean:
@@ -42,12 +41,11 @@ clean:
 	rm -f build-stamp configure-stamp
 	[ ! -f Makefile ] || $(MAKE) distclean
 	dh_clean aclocal.m4 configure config.h.in Makefile.in doc/*.1 doc/*.6
-	$(MAKE) -f debian/rules unpatch
 
 install: build-stamp
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 	$(MAKE) install prefix=$D
 	mkdir $D/games
