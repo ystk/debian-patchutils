@@ -1,6 +1,6 @@
 Summary: A collection of programs for manipulating patch files.
 Name: patchutils
-Version: 0.3.1
+Version: 0.3.2
 Release: 0.1
 License: GPL
 Group: Applications/System
