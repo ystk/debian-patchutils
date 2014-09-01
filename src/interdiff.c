@@ -677,7 +677,6 @@ output_patch1_only (FILE *p1, FILE *out, int not_reverted)
 	char options[100];
 	int tmpp1fd, tmpp2fd;
 	long pos;
-	long start;
 	char *oldname = NULL, *newname = NULL;
 	size_t oldnamelen = 0, newnamelen = 0;
 	struct lines_info file_orig = { NULL, 0, 0, NULL, NULL };
@@ -724,7 +723,6 @@ output_patch1_only (FILE *p1, FILE *out, int not_reverted)
 	if (strncmp (newname, "+++ ", 4))
 		error (EXIT_FAILURE, errno, "Bad patch #1");
 	newname[strlen (newname) - 1] = '\0';
-	start = ftell (p1);
 
 	/* Recreate the original and modified state. */
 	fseek (p1, pos, SEEK_SET);
@@ -1335,6 +1333,12 @@ add_offset (unsigned long line, long offset,
 	return offsets;
 }
 
+static void
+free_offsets (struct offset *offsets)
+{
+	free (offsets);
+}
+
 static int
 patch2_removes_line (unsigned long line,	/* line number after patch1 */
 		     struct offset *offsets,
@@ -1693,6 +1697,9 @@ flipdiff (FILE *p1, FILE *p2, FILE *flip1, FILE *flip2)
 	free_lines (intermediate.head);
 	intermediate.head = intermediate.tail = NULL;
 	f = fopen (tmpp3, "r");
+	if (!f)
+	    error (EXIT_FAILURE, errno, "error opening temporary file");
+
 	linenum = 0;
 	saw_first_offset = 0;
 	while (!feof (f)) {
@@ -1785,8 +1792,10 @@ flipdiff (FILE *p1, FILE *p2, FILE *flip1, FILE *flip2)
 	take_diff (tmpp1, tmpp2, header2, intermediate.unline, flip1);
 	take_diff (tmpp2, tmpp3, header1, intermediate.unline, flip2);
 
-	if (line)
-		free (line);
+	free (line);
+	free_offsets (offsets);
+	fclose (f);
+
 	if (debug)
 		printf ("flipped\n");
 	else {
@@ -2122,8 +2131,10 @@ main (int argc, char *argv[])
 		p1 = xopen_unzip (argv[optind], "rb");
 		p2 = xopen_unzip (argv[optind + 1], "rb");
 	} else {
-		p1 = xopen (argv[optind], "rbm");
-		p2 = xopen (argv[optind + 1], "rbm");
+		if (strcmp (argv[optind], "-") == 0 && strcmp(argv[optind+1], "-") == 0)
+			error (EXIT_FAILURE, 0, "only one input file can come from stdin");
+		p1 = strcmp (argv[optind], "-") == 0 ? stdin : xopen (argv[optind], "rbm");
+		p2 = strcmp (argv[optind+1], "-") == 0 ? stdin : xopen (argv[optind + 1], "rbm");
 	}
 
 	p1 = convert_to_unified (p1, "rb", 1);

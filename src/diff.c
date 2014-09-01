@@ -1,6 +1,6 @@
 /*
  * diff.c - diff specific util functions
- * Copyright (C) 2001, 2002, 2003, 2004, 2005, 2009 Tim Waugh <twaugh@redhat.com>
+ * Copyright (C) 2001, 2002, 2003, 2004, 2005, 2009, 2011, 2013 Tim Waugh <twaugh@redhat.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,9 +71,9 @@ char *best_name (int n, char **names)
         int best_pn, best_bn, best_n, best = 0; /* shut gcc up */
         int i;
 
-        pathname_components = xmalloc (sizeof (int *) * n);
-        basename_length = xmalloc (sizeof (int *) * n);
-        is_dev_null = xmalloc (sizeof (int *) * n);
+        pathname_components = xmalloc (sizeof (int) * n);
+        basename_length = xmalloc (sizeof (int) * n);
+        is_dev_null = xmalloc (sizeof (int) * n);
 
         best_pn = -1;
         for (i = 0; i < n; i++) {
@@ -304,6 +304,7 @@ static void convert_unified_hunks_to_context (char **line, size_t *linelen,
 	unsigned int n_whats = 0;
 	unsigned long orig_linenum, new_linenum;
 	const char *no_newline_str = "\\ No newline at end of file\n";
+	char *misc = NULL;
 
 	if (feof (stdin))
 		goto eof;
@@ -315,11 +316,12 @@ static void convert_unified_hunks_to_context (char **line, size_t *linelen,
 	for (;;) {
 		char *last_orig = NULL;
 		char *last_new = NULL;
-		char *misc = NULL;
 		char *what = NULL;
 		int newline = 1;
 		int can_omit_from = 1, can_omit_to = 1;
 		unsigned long i;
+
+		misc = NULL;
 
 		if (read_atatline (*line, &orig_offset, &orig_count,
 				   &new_offset, &new_count))
@@ -352,6 +354,20 @@ static void convert_unified_hunks_to_context (char **line, size_t *linelen,
 
 			switch (**line) {
 			case ' ':
+				if (orig_linenum == orig_count)
+					/* We've already seen all the orig
+					 * lines we were expecting. */
+					error (EXIT_FAILURE, 0,
+					       "Garbled input at line %lu",
+					       *linenum);
+
+				if (new_linenum == new_count)
+					/* We've already seen all the new
+					 * lines we were expecting. */
+					error (EXIT_FAILURE, 0,
+					       "Garbled input at line %lu",
+					       *linenum);
+
 				what = NULL;
 				orig_what[orig_linenum] = " ";
 				new_what[new_linenum] = " ";
@@ -362,6 +378,13 @@ static void convert_unified_hunks_to_context (char **line, size_t *linelen,
 				break;
 
 			case '-':
+				if (orig_linenum == orig_count)
+					/* We've already seen all the orig
+					 * lines we were expecting. */
+					error (EXIT_FAILURE, 0,
+					       "Garbled input at line %lu",
+					       *linenum);
+
 				if (what) {
 					if (*what != '-')
 						*what = '!';
@@ -378,6 +401,13 @@ static void convert_unified_hunks_to_context (char **line, size_t *linelen,
 				break;
 
 			case '+':
+				if (new_linenum == new_count)
+					/* We've already seen all the new
+					 * lines we were expecting. */
+					error (EXIT_FAILURE, 0,
+					       "Garbled input at line %lu",
+					       *linenum);
+
 				if (what) {
 					if (*what != '+')
 						*what = '!';
@@ -622,7 +652,8 @@ static void convert_context_hunks_to_unified (char **line, size_t *linelen,
 				goto eof;
 			++*linenum;
 
-			if (!i && !strncmp (*line, "***************", 15)) {
+			if (!i && !misc &&
+			    !strncmp (*line, "***************", 15)) {
 				char *m = *line + 15;
 				if (strcmp (m, "\n"))
 					misc = xstrdup (m);
@@ -900,6 +931,8 @@ static FILE *do_convert (FILE *f, const char *mode, int seekable,
 			/* Parent. */
 			close (fildes[1]);
 			ret = fdopen (fildes[0], mode);
+			if (!ret)
+			    error (EXIT_FAILURE, errno, "fdopen failed");
 
 			if (seekable) {
 				FILE *tmp = xtmpfile ();	
@@ -912,6 +945,7 @@ static FILE *do_convert (FILE *f, const char *mode, int seekable,
 					fputc (c, tmp);
 				}
 
+				fclose (ret);
 				rewind (tmp);
 				return tmp;
 			}

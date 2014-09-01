@@ -1,13 +1,22 @@
 '\" t
 .\"     Title: interdiff
 .\"    Author: 
-.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\" Generator: DocBook XSL Stylesheets v1.76.1 <http://docbook.sf.net/>
 .\"      Date: 23 June 2009
 .\"    Manual: Man pages
 .\"    Source: patchutils
 .\"  Language: English
 .\"
 .TH "INTERDIFF" "1" "23 June 2009" "patchutils" "Man pages"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
 .\" -----------------------------------------------------------------
 .\" * set default formatting
 .\" -----------------------------------------------------------------
@@ -49,7 +58,7 @@ interdiff \-U1 /dev/null patchfile
 .PP
 Since
 \fBinterdiff\fR
-doesn\'t have the advantage of being able to look at the files that are to be modified, it has stricter requirements on the input format than
+doesn\*(Aqt have the advantage of being able to look at the files that are to be modified, it has stricter requirements on the input format than
 \fBpatch\fR(1)
 does\&. The output of GNU diff will be okay, even with extensions, but if you intend to use a hand\-edited patch it might be wise to clean up the offsets and counts using
 \fBrecountdiff\fR(1)
@@ -77,7 +86,7 @@ option to GNU
 .PP
 \fB\-q\fR, \fB\-\-quiet\fR
 .RS 4
-Quieter output\&. Don\'t emit rationale lines at the beginning of each patch\&.
+Quieter output\&. Don\*(Aqt emit rationale lines at the beginning of each patch\&.
 .RE
 .PP
 \fB\-U\fR \fIn\fR, \fB\-\-unified=\fR\fB\fIn\fR\fR
@@ -94,7 +103,7 @@ option to GNU
 .PP
 \fB\-d\fR \fIPATTERN\fR, \fB\-\-drop\-context=\fR\fB\fIPATTERN\fR\fR
 .RS 4
-Don\'t display any context on files that match the shell wildcard
+Don\*(Aqt display any context on files that match the shell wildcard
 \fIPATTERN\fR\&. This option can be given multiple times\&.
 .sp
 Note that the interpretation of the shell wildcard pattern does not count slash characters or periods as special (in other words, no flags are given to
@@ -143,7 +152,7 @@ for more information about how the behaviour is altered in this mode\&.
 .PP
 \fB\-\-no\-revert\-omitted\fR
 .RS 4
-(For interpolation mode only) When a file is changed by the first patch but not by the second, don\'t revert that change\&.
+(For interpolation mode only) When a file is changed by the first patch but not by the second, don\*(Aqt revert that change\&.
 .RE
 .PP
 \fB\-\-help\fR

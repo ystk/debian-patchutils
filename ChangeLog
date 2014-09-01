@@ -1,8 +1,44 @@
-2011-02-10  Tim Waugh  <twaugh@redhat.com>  
+2013-04-02  Tim Waugh  <twaugh@redhat.com>
+
+	* configure.in: Version 0.3.3.
+
+2011-05-26  Tim Waugh  <twaugh@redhat.com>
+
+	* src/filterdiff.c (do_context): Handle "no newline" lines
+	(trac #13, newline6 test case).
+
+2011-05-25  Tim Waugh  <twaugh@redhat.com>
+
+	* splitdiff.in: Output files now have a .patch filename
+	extension, unless the new -E option is given.
+
+2011-05-20  Tim Waugh  <twaugh@redhat.com>
+
+	* src/rediff.c: Applied patch from Jiri Popelka to fix
+	possible NULL pointer access.
+
+	* src/diff.c: Applied patch from Jiri Popelka to fix incorrect
+	use of sizeof for memory allocation.
+
+	* src/diff.c, src/interdiff.c: Applied patch from Jiri Popelka
+	to fix resource leaks.  Slight changes made my me.
+
+2011-03-08  Tim Waugh  <twaugh@redhat.com>
+
+	* tests/newline6/run-test: New test case for trac #13.
+	* Makefile.am: Run it (currently fails).
+
+2011-02-14  Tim Waugh  <twaugh@redhat.com>
+
+	* src/util.c (patlist_add_file): Avoid PATH_MAX (trac #11).
+
+	* tests/rediff2/run-test: Portability fix (trac #18).
+
+2011-02-10  Tim Waugh  <twaugh@redhat.com>
 
 	* configure.in: Version 0.3.2.
 
-2011-02-10  Tim Waugh  <twaugh@redhat.com>  
+2011-02-10  Tim Waugh  <twaugh@redhat.com>
 
 	* editdiff.in: Do not run rediff if no changes were made (trac
 	#14).
