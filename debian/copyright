@@ -1,7 +1,8 @@
 This package was debianized by Adrian Bunk <bunk@fs.tum.de> on
 Sat,  5 Aug 2000 23:59:19 +0200 and later maintained by
-Michael Fedrowitz <michaelf@debian.org>. The current maintainer is
-Christoph Berg <myon@debian.org>.
+Michael Fedrowitz <michaelf@debian.org>. The previous maintainer was
+Christoph Berg <myon@debian.org> .
+The actual is Laszlo Boszormenyi (GCS) <gcs@debian.org> .
 
 It was downloaded from `http://cyberelk.net/tim/data/patchutils/'.
 

@@ -1,3 +1,32 @@
+patchutils (0.3.3-1) unstable; urgency=low
+
+  * New upstream release which includes fix-testsuite patch, thus removed.
+  * Update watch file.
+
+  [ Manuel A. Fernandez Montecelo <mafm@debian.org> ]
+  * Bootstrap of or1k, honor DEB_BUILD_OPTIONS "nocheck" (closes: #744543).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 13 Apr 2014 23:41:53 +0200
+
+patchutils (0.3.2-3) unstable; urgency=low
+
+  * New maintainer (closes: #728665).
+  * Update Standards-Version to 3.9.5 .
+
+  [ Eleanor Chen <chenyueg@gmail.com> ]
+  * Only do check when not being cross compiled (closes: #719239).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 04 Nov 2013 13:12:30 +0000
+
+patchutils (0.3.2-2) unstable; urgency=low
+
+  * Use dh-autoreconf to refresh autotools files. Closes: #710931.
+    Thanks to Colin Watson for the patch.
+  * Fix editdiff.1. Closes: #668422.
+  * Bump to dh 9.
+
+ -- Christoph Berg <myon@debian.org>  Mon, 17 Jun 2013 15:43:41 +0200
+
 patchutils (0.3.2-1.1) unstable; urgency=low
 
   * NMU with maintainer approval
